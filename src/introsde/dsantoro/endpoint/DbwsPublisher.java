@@ -3,10 +3,18 @@ package introsde.dsantoro.endpoint;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
+import java.net.URL;
 
+import javax.xml.namespace.QName;
 import javax.xml.ws.Endpoint;
 
+import java.util.List;
+
+import introsde.dsantoro.model.Person;
+import introsde.dsantoro.ws.Dbws;
 import introsde.dsantoro.ws.DbwsImpl;
+
+import javax.xml.ws.Service;
 
 public class DbwsPublisher {
 	public static void main(String[] args) throws IllegalArgumentException, IOException, URISyntaxException{
@@ -26,6 +34,6 @@ public class DbwsPublisher {
         String endpointUrl = PROTOCOL+HOSTNAME+":"+PORT+BASE_URL;
         System.out.println("Starting DB Service...");
         System.out.println("--> Published. Check out "+endpointUrl+"?wsdl");
-        Endpoint.publish(endpointUrl, new DbwsImpl());
+        Endpoint.publish(endpointUrl, new DbwsImpl());        
     }
 }

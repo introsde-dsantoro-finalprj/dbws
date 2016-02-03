@@ -26,7 +26,7 @@ public interface Dbws {
 
 	@WebMethod(operationName="createPerson")
 	@WebResult(name="person") 
-	public int createPerson(@WebParam(name="person") Person person);
+	public Person createPerson(@WebParam(name="person") Person person);
 
 
 

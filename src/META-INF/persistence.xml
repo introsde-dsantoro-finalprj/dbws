@@ -7,13 +7,13 @@
 		<class>introsde.dsantoro.model.Meal</class>
 	<properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/instrosde" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/introsde" />
             <property name="javax.persistence.jdbc.user" value="introsde" />
       		<property name="javax.persistence.jdbc.password" value="introsde" />            
             <!-- set it to ALL to see all the JPA related debugging information --> 
             <property name="eclipselink.logging.level" value="INFO" />
-            <!-- we will use this to automatically add elements to our database if we modify the Java model -->
-            <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
+            <!-- we will use this to automatically add elements to our database if we modify the Java model >> create-or-extend-tables -->
+            <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
             <!-- it means that automatic changes will be directly applied to the database this is not recommended, but we will use it as example only -->  
             <property name="eclipselink.ddl-generation.output-mode" value="database"/>
         </properties>

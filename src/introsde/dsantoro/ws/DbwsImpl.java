@@ -6,7 +6,7 @@ import javax.jws.WebService;
 
 import introsde.dsantoro.model.Person;
 
-@WebService(endpointInterface = "introsde.dsantoro.ws.Dbws", serviceName="dbws")
+@WebService(endpointInterface = "introsde.dsantoro.ws.Dbws", serviceName="dbwsService")
 public class DbwsImpl implements Dbws {
 
 	@Override
@@ -17,13 +17,11 @@ public class DbwsImpl implements Dbws {
 
 	@Override
 	public List<Person> readPersonList() {
-		// TODO Auto-generated method stub
-		return null;
+		return Person.getAll();
 	}
 
 	@Override
-	public int createPerson(Person person) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Person createPerson(Person person) {
+		return Person.savePerson(person);
 	}
 }
