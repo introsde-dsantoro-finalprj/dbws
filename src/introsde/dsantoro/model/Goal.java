@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import introsde.dsantoro.dao.DbwsDao;
 
@@ -14,6 +16,7 @@ import introsde.dsantoro.dao.DbwsDao;
  */
 @Entity
 @Table(name="goal")
+@NamedQuery(name="Goal.findAll", query="SELECT g FROM Goal g")
 public class Goal implements Serializable {
 
 	public Goal() {
@@ -24,13 +27,15 @@ public class Goal implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@XmlElement
+	private Long id;	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date day;
 	private String name;
-	private Integer calories;
+	private Integer calories = 0;
+	@ManyToOne
+	private Person person;
 	
 	public Date getDay() {
 		return day;
@@ -60,6 +65,24 @@ public class Goal implements Serializable {
 		return id;
 	}
 	
+	@XmlTransient
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+	@Override
+	public String toString() {
+		return  this.getClass().getName() + ": " +
+				"Name: " + name + " " +
+				"Date: " + day + " " +
+				"Id: " + id;
+	}
+	
+	
 	// Database operations	
 	public static List<Goal> getAll() {
 		EntityManager em = DbwsDao.instance.createEntityManager();
@@ -68,16 +91,16 @@ public class Goal implements Serializable {
 	    return list;
 	}
 	
-	public static Goal saveGoal(Goal p) {
+	public static Goal saveGoal(Goal g, Person p) {
+		g.setPerson(p);
 		EntityManager em = DbwsDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		em.persist(p);
+		em.persist(g);
 		tx.commit();
 	    DbwsDao.instance.closeConnections(em);
-	    return p;
+	    return g;
 	}
-	
 	public static Goal updateGoal(Goal p) {
 		EntityManager em = DbwsDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();

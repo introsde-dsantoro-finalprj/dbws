@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import introsde.dsantoro.dao.DbwsDao;
 
@@ -14,21 +16,34 @@ import introsde.dsantoro.dao.DbwsDao;
  */
 @Entity
 @Table(name="meal")
+@NamedQuery(name="Meal.findAll", query="SELECT m FROM Meal m")
 public class Meal implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public Meal() {
 		super();
+		this.datetime = new Date();
 	}
-
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@XmlElement
 	private Long id;
 	private String name;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date datetime;
-	private Integer calories;
-	private String type;
+	private Integer calories = 0;
+	private String type;	
+	@ManyToOne
+	private Person person;
+	
+	@XmlTransient
+	public Person getPerson() {
+		return person;
+	}
+	
+	public void setPerson1(Person person) {
+		this.person = person;
+	}
 	
 	public String getName() {
 		return name;
@@ -65,7 +80,15 @@ public class Meal implements Serializable {
 	public Long getId() {
 		return id;
 	}
-   
+ 
+	@Override
+	public String toString() {
+		return  this.getClass().getName() + ": " +
+				"Name: " + name + " " +
+				"Date: " + datetime + " " +
+				"Id: " + id;
+	}
+	
 	// Database operations	
 	public static List<Meal> getAll() {
 		EntityManager em = DbwsDao.instance.createEntityManager();
@@ -74,14 +97,15 @@ public class Meal implements Serializable {
 	    return list;
 	}
 	
-	public static Meal saveMeal(Meal p) {
+	public static Meal saveMeal(Meal m, Person p) {
+		m.setPerson1(p);
 		EntityManager em = DbwsDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		em.persist(p);
+		em.persist(m);
 		tx.commit();
 	    DbwsDao.instance.closeConnections(em);
-	    return p;
+	    return m;
 	}
 	
 	public static Meal updateMeal(Meal p) {

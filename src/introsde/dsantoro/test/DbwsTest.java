@@ -2,12 +2,14 @@ package introsde.dsantoro.test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
+
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
+import introsde.dsantoro.model.Activity;
 import introsde.dsantoro.model.Goal;
+import introsde.dsantoro.model.Meal;
 import introsde.dsantoro.model.Person;
 import introsde.dsantoro.ws.Dbws;
 
@@ -24,13 +26,43 @@ public class DbwsTest {
 	    Service service = Service.create(url, qname);
 
 	    Dbws dbws = service.getPort(Dbws.class);
-	    Person p = new Person();
-	    p.setFirstname("Daniele");
-	    p = dbws.createPerson(p);
-	    List<Person> pList = dbws.readPersonList();
-	    System.out.println("First Person in the list ==> "+pList.get(0));
+	    
+	    Activity a = new Activity();
+	    a.setName("acitivity inside person");
 	    
 	    Goal g = new Goal();
-//	    g = dbws.
+	    g.setName("goal in person");
+	    g.setCalories(300);
+	    
+	    Meal m = new Meal();
+	    m.setName("Pranzo ristorante");
+	    m.setCalories(10);	    
+	    
+	    Person p = new Person();	    
+	    p.setFirstname("Daniele");
+	    p.addMeal(m);
+	    m.setPerson1(p);
+	    p.addGoal(g);
+	    p.addActivity(a);
+	    p = dbws.createPerson(p);
+	    
+	    
+	    System.out.println("Person just created ==> "+p);
+	    g = new Goal();
+	    g.setName("My first goal");
+	    g = dbws.createGoal(g, p);
+	    System.out.println("Goal just created ==> "+g);
+	    
+	    m = new Meal();
+	    m.setName("Fruits");
+	    m.setCalories(1000);
+	    m = dbws.createMeal(m, p);
+	    System.out.println("Meal just created ==> "+m);
+	    
+	    a = new Activity();
+	    a.setName("Today run");
+	    a.setCalories(900);
+	    a = dbws.createActivity(a, p);
+	    System.out.println("Activity just created ==> "+a);
 	}
 }

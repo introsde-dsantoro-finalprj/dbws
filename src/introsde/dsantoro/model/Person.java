@@ -1,10 +1,15 @@
 package introsde.dsantoro.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+import java.util.Iterator;
 
 import javax.persistence.*;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 
 import introsde.dsantoro.dao.DbwsDao;
 
@@ -23,7 +28,8 @@ public class Person implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@XmlElement
 	private Long id;
 	private String firstname;
 	private String lastname;
@@ -32,11 +38,17 @@ public class Person implements Serializable {
 	private String email;
 	private String weight;
 	private String height;
-	private Integer daycalories;
+	private Integer daycalories = 0;
+	@OneToMany(mappedBy="person", cascade={CascadeType.ALL},fetch=FetchType.EAGER)
+	private Collection<Meal> meals = new ArrayList<Meal>();
+	@OneToMany(mappedBy="person", cascade={CascadeType.ALL},fetch=FetchType.EAGER)
+	private Collection<Goal> goals = new ArrayList<Goal>();
+	@OneToMany(mappedBy="person", cascade={CascadeType.ALL},fetch=FetchType.EAGER)
+	private Collection<Activity> activities = new ArrayList<Activity>();
 
 	@Override
-	public String toString() {
-		return 
+	public String toString() {		
+		return  this.getClass().getName() + ": " +
 				"Firstname: " + firstname + " " +
 				"Lastname: " + lastname + " " +
 				"Id: " + id;
@@ -98,19 +110,92 @@ public class Person implements Serializable {
 		this.daycalories = daycalories;
 	}
 
+	@XmlElementWrapper(name = "meals")
+	@XmlElement(name="meal")
+	public Collection<Meal> getMeals() {
+		return meals;
+	}
+
+	public void setMeals(Collection<Meal> meals) {
+		this.meals = meals;
+	}
+
+	@XmlElementWrapper(name = "goals")
+	@XmlElement(name="goal")
+	public Collection<Goal> getGoals() {
+		return goals;
+	}
+
+	public void setGoals(Collection<Goal> goals) {
+		this.goals = goals;
+	}
+
+	@XmlElementWrapper(name = "activities")
+	@XmlElement(name="activity")
+	public Collection<Activity> getActivities() {
+		return activities;
+	}
+
+	public void setActivities(Collection<Activity> activities) {
+		this.activities = activities;
+	}
+
 	public Long getId() {
 		return id;
 	}
 	
+	public void addMeal(Meal m) {
+		meals.add(m);
+		m.setPerson1(this);		
+	}
+	
+	public void addActivity(Activity a) {		
+		activities.add(a);
+		a.setPerson(this);
+	}
+	
+	public void addGoal(Goal g) {
+		goals.add(g);
+		g.setPerson(this);
+	}
+	
 	// Database operations	
-	public static List<Person> getAll() {
+	public static Collection<Person> getAll() {
 		EntityManager em = DbwsDao.instance.createEntityManager();
-	    List<Person> list = em.createNamedQuery("Person.findAll", Person.class).getResultList();
+	    Collection<Person> list = em.createNamedQuery("Person.findAll", Person.class).getResultList();
 	    DbwsDao.instance.closeConnections(em);
 	    return list;
 	}
 	
 	public static Person savePerson(Person p) {
+		
+		// If present update person Meals
+    	if (p.getMeals() != null) {
+        	Iterator<Meal> i = p.getMeals().iterator();
+        	while(i.hasNext()){
+        		Meal m = i.next();
+        		m.setPerson1(p);        		
+        	}
+    	}
+    	
+    	// If present update person Goals
+    	if (p.getGoals() != null) {
+        	Iterator<Goal> i = p.getGoals().iterator();
+        	while(i.hasNext()){
+        		Goal m = i.next();
+        		m.setPerson(p);        		
+        	}
+    	}
+    	
+    	// If present update person Activities
+    	if (p.getActivities() != null) {
+        	Iterator<Activity> i = p.getActivities().iterator();
+        	while(i.hasNext()){
+        		Activity m = i.next();
+        		m.setPerson(p);        		
+        	}
+    	}
+		
 		EntityManager em = DbwsDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
