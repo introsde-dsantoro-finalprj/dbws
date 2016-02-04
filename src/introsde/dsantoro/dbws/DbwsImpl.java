@@ -1,4 +1,4 @@
-package introsde.dsantoro.ws;
+package introsde.dsantoro.dbws;
 
 import java.util.Collection;
 
@@ -9,7 +9,7 @@ import introsde.dsantoro.model.Goal;
 import introsde.dsantoro.model.Meal;
 import introsde.dsantoro.model.Person;
 
-@WebService(endpointInterface = "introsde.dsantoro.ws.Dbws", serviceName="dbwsService")
+@WebService(endpointInterface = "introsde.dsantoro.dbws.Dbws", serviceName="dbwsService")
 public class DbwsImpl implements Dbws {
 
 	@Override

@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
 import javax.xml.ws.Endpoint;
-import introsde.dsantoro.ws.DbwsImpl;
+
+import introsde.dsantoro.dbws.DbwsImpl;
 
 public class DbwsPublisher {
 	public static void main(String[] args) throws IllegalArgumentException, IOException, URISyntaxException{

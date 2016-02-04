@@ -1,4 +1,4 @@
-package introsde.dsantoro.ws;
+package introsde.dsantoro.dbws;
 
 import java.util.Collection;
 

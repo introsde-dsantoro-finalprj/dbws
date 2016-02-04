@@ -7,11 +7,11 @@ import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
+import introsde.dsantoro.dbws.Dbws;
 import introsde.dsantoro.model.Activity;
 import introsde.dsantoro.model.Goal;
 import introsde.dsantoro.model.Meal;
 import introsde.dsantoro.model.Person;
-import introsde.dsantoro.ws.Dbws;
 
 public class DbwsTest {
 
