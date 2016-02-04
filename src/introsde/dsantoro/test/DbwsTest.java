@@ -17,9 +17,9 @@ public class DbwsTest {
 
 	
 	public static void main(String[] args) throws MalformedURLException {
-		// Client test
-	    
-	    URL url = new URL("http://192.168.5.3:6902/ws/dbws?wsdl");
+	    final String DBWS_HOST = System.getenv("DBWS_HOST");
+	    final String DBWS_PORT = System.getenv("DBWS_PORT");
+	    URL url = new URL("http://"+DBWS_HOST+":"+DBWS_PORT+"/ws/dbws?wsdl");
 	    //1st argument service URI, refer to wsdl document above
 	    //2nd argument is service name, refer to wsdl document above
 	    QName qname = new QName("http://ws.dsantoro.introsde/", "dbwsService");
