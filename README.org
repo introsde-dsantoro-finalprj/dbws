@@ -1,11 +1,18 @@
 * Deployment
-  1) Server
+  1) Deploy on Heroku
+     #+BEGIN_EXAMPLE
+     heroku login
+     heroku create --stack cedar --buildpack https://github.com/IntroSDE/heroku-buildpack-ant.git
+     git push heroku master
+     heroku open
+     #+END_EXAMPLE
+  2) Server
      #+BEGIN_EXAMPLE
      ant install
      source serviceSetup-example.sh
      ant start
      #+END_EXAMPLE
-  2) Test client  
+  3) Test client  
      #+BEGIN_EXAMPLE
      export DBWS_PORT=6902
      export DBWS_HOST=192.168.5.3
