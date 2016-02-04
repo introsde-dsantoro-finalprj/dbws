@@ -10,3 +10,5 @@
 
 *.jar
 build/*
+serviceSetupHeroku-prod.sh
+.*

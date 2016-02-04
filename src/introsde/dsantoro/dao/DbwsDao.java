@@ -1,5 +1,7 @@
 package introsde.dsantoro.dao;
 
+import java.util.Properties;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -7,15 +9,38 @@ import javax.persistence.Persistence;
 
 public enum DbwsDao {
 	instance;
-	private EntityManagerFactory emf;	
+	private EntityManagerFactory emf;
+	final String DB_HOST = System.getenv("DB_HOST");
+	final String DB_PORT = System.getenv("DB_PORT");
+	final String DB_USER = System.getenv("DB_USER");
+	final String DB_PWD = System.getenv("DB_PWD");
+	final String DB_NAME = System.getenv("DB_NAME");
 	
 	private DbwsDao() {
 		if (emf!=null) {
 			emf.close();
 		}
-		emf = Persistence.createEntityManagerFactory("dbws");
+		if (alternativeConf()) {
+			System.out.println("DB config: Using environment variable");
+			Properties props = new Properties();
+			props.setProperty("javax.persistence.jdbc.url", "jdbc:mysql://"+DB_HOST+"/"+DB_NAME);
+			props.setProperty("javax.persistence.jdbc.user", DB_USER);
+			props.setProperty("javax.persistence.jdbc.password", DB_PWD);
+			emf = Persistence.createEntityManagerFactory("dbws", props);
+		}
+		else {
+			System.out.println("DB config: Using persistence.xml file");
+			emf = Persistence.createEntityManagerFactory("dbws");
+		}
 	}
 	
+	private boolean alternativeConf() {
+		if ( DB_HOST != null && DB_USER != null && DB_PWD != null && DB_NAME != null) {
+			return true;
+		}
+		return false;
+	}
+
 	public EntityManager createEntityManager() {
 		return emf.createEntityManager();
 	}

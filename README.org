@@ -1,0 +1,15 @@
+* Deployment
+  1) Server
+     #+BEGIN_EXAMPLE
+     ant install
+     source serviceSetup-example.sh
+     ant start
+     #+END_EXAMPLE
+  2) Test client  
+     #+BEGIN_EXAMPLE
+     export DBWS_PORT=6902
+     export DBWS_HOST=192.168.5.3
+     ant execute.test
+     #+END_EXAMPLE
+     
+     
