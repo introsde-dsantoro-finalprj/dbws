@@ -30,7 +30,7 @@ public interface Dbws {
 
 	@WebMethod(operationName="createPerson")
 	@WebResult(name="person") 
-	public Person createPerson(@WebParam(name="person") Person person);
+	public Person createPerson(@WebParam(name="personRqst") Person person);
 
 	// Goal methods
 	@WebMethod(operationName="readGoal")
@@ -43,7 +43,7 @@ public interface Dbws {
 
 	@WebMethod(operationName="createGoal")
 	@WebResult(name="goal") 
-	public Goal createGoal(@WebParam(name="goal") Goal goal, @WebParam(name="person") Person person);
+	public Goal createGoal(@WebParam(name="goalRqst") Goal goal, @WebParam(name="person") Person person);
 
 	// Activity methods
 	@WebMethod(operationName="readActivity")
@@ -56,7 +56,7 @@ public interface Dbws {
 
 	@WebMethod(operationName="createActivity")
 	@WebResult(name="activity") 
-	public Activity createActivity(@WebParam(name="activity") Activity activity, @WebParam(name="person") Person person);
+	public Activity createActivity(@WebParam(name="activityRqst") Activity activity, @WebParam(name="person") Person person);
 	
 	// Meal methods
 	@WebMethod(operationName="readMeal")
@@ -69,7 +69,7 @@ public interface Dbws {
 
 	@WebMethod(operationName="createMeal")
 	@WebResult(name="meal") 
-	public Meal createMeal(@WebParam(name="meal") Meal meal, @WebParam(name="person") Person person);
+	public Meal createMeal(@WebParam(name="mealRqst") Meal meal, @WebParam(name="person") Person person);
 
 	
 
