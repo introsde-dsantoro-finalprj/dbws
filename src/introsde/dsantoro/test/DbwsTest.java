@@ -22,7 +22,7 @@ public class DbwsTest {
 	    URL url = new URL("http://"+DBWS_HOST+":"+DBWS_PORT+"/ws/dbws?wsdl");
 	    //1st argument service URI, refer to wsdl document above
 	    //2nd argument is service name, refer to wsdl document above
-	    QName qname = new QName("http://ws.dsantoro.introsde/", "dbwsService");
+	    QName qname = new QName("http://dbws.dsantoro.introsde/", "dbwsService");
 	    Service service = Service.create(url, qname);
 
 	    Dbws dbws = service.getPort(Dbws.class);
