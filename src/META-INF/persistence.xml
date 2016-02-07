@@ -15,7 +15,8 @@
             <!-- we will use this to automatically add elements to our database if we modify the Java model >> drop-and-create-tables -->
             <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
             <!-- it means that automatic changes will be directly applied to the database this is not recommended, but we will use it as example only -->  
-            <property name="eclipselink.ddl-generation.output-mode" value="database"/>            
+            <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+            <property name="eclipselink.cache.shared.default" value="false"/>            
         </properties>
 	</persistence-unit>
 </persistence>
